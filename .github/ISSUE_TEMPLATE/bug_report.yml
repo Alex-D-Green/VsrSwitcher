@@ -49,8 +49,6 @@ body:
     attributes:
       label: Windows version
       placeholder: "Windows 11 24H2"
-    validations:
-      required: true
 
   - type: input
     id: gpu
