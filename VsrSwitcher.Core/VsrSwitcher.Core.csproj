@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    The shared engine: everything that reads or changes RTX Video Super Resolution. Front ends
+    (the vsrswitch command line, the VSR Switcher tray app) only parse input and present results.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <RootNamespace>VsrSwitcher.Core</RootNamespace>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Description>Control of NVIDIA RTX Video Super Resolution through NVIDIA App's settings API.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="VsrSwitcher.Tests" />
+  </ItemGroup>
+
+</Project>

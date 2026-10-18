@@ -1,0 +1,6 @@
+# Store text with LF in the repository; check out with the platform's line endings.
+* text=auto
+
+# Binary assets.
+*.ico binary
+*.png binary

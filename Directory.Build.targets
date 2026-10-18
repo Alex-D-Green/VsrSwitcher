@@ -1,0 +1,40 @@
+<Project>
+
+  <!--
+    The version comes from git: the latest tag of the form vX.Y.Z reachable from the commit built.
+
+      built on tag v1.2.0, no local edits      1.2.0
+      3 commits after it, with local edits     1.2.0+3.g1a2b3c4.dirty   (file version 1.2.0.3)
+
+    Without git, or before the first tag, the 0.0.0-dev placeholder from Directory.Build.props
+    stays. An explicit -p:Version=... on the command line takes precedence over both.
+  -->
+  <Target Name="SetVersionFromGitTag" BeforeTargets="GetAssemblyVersion;GenerateAssemblyInfo" Condition="'$(Version)' == '0.0.0'">
+    <Exec Command="git describe --tags --long --dirty --match &quot;v[0-9]*&quot;"
+          WorkingDirectory="$(MSBuildProjectDirectory)"
+          ConsoleToMSBuild="true"
+          IgnoreExitCode="true"
+          IgnoreStandardErrorWarningFormat="true"
+          StandardOutputImportance="low"
+          StandardErrorImportance="low"
+          EchoOff="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="_GitDescribe" />
+      <Output TaskParameter="ExitCode" PropertyName="_GitDescribeExit" />
+    </Exec>
+
+    <PropertyGroup Condition="'$(_GitDescribeExit)' == '0' and $([System.Text.RegularExpressions.Regex]::IsMatch('$(_GitDescribe)', '^v\d+\.\d+\.\d+-\d+-g[0-9a-f]+(-dirty)?$'))">
+      <_GitTagVersion>$([System.Text.RegularExpressions.Regex]::Replace('$(_GitDescribe)', '^v(\d+\.\d+\.\d+)-.*$', '$1'))</_GitTagVersion>
+      <_GitCommits>$([System.Text.RegularExpressions.Regex]::Replace('$(_GitDescribe)', '^v\d+\.\d+\.\d+-(\d+)-.*$', '$1'))</_GitCommits>
+      <_GitHash>$([System.Text.RegularExpressions.Regex]::Replace('$(_GitDescribe)', '^.*-g([0-9a-f]+)(-dirty)?$', '$1'))</_GitHash>
+      <_GitDirty>$(_GitDescribe.EndsWith('-dirty'))</_GitDirty>
+
+      <Version>$(_GitTagVersion)</Version>
+      <AssemblyVersion>$(_GitTagVersion).0</AssemblyVersion>
+      <FileVersion>$(_GitTagVersion).$(_GitCommits)</FileVersion>
+      <InformationalVersion>$(_GitTagVersion)</InformationalVersion>
+      <InformationalVersion Condition="'$(_GitCommits)' != '0' or '$(_GitDirty)' == 'True'">$(_GitTagVersion)+$(_GitCommits).g$(_GitHash)</InformationalVersion>
+      <InformationalVersion Condition="'$(_GitDirty)' == 'True'">$(InformationalVersion).dirty</InformationalVersion>
+    </PropertyGroup>
+  </Target>
+
+</Project>

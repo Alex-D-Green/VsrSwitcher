@@ -1,0 +1,21 @@
+<Project>
+
+  <!-- Shared by every project in the repository. -->
+  <PropertyGroup>
+    <Product>VSR Switcher</Product>
+    <Authors>Alex-D-Green</Authors>
+    <Company>Alex-D-Green</Company>
+    <Copyright>Copyright © 2026 Alex-D-Green</Copyright>
+
+    <!--
+      Placeholders: Directory.Build.targets replaces them with the latest git tag (vX.Y.Z). They
+      remain only for a build made outside git, or before the first tag.
+    -->
+    <Version>0.0.0</Version>
+    <InformationalVersion>0.0.0-dev</InformationalVersion>
+
+    <!-- The version string already names the commit when it is not a tagged one. -->
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+  </PropertyGroup>
+
+</Project>

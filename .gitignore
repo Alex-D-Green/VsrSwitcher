@@ -1,0 +1,19 @@
+# Build output
+bin/
+obj/
+artifacts/
+
+# Visual Studio
+.vs/
+*.user
+
+# Local tooling: Claude Code settings and Visual Studio's connection to it
+.claude/
+.mcp.json
+
+# Local backups (they include conversation transcripts)
+*.7z
+
+# Private technical notes and local tools, not published
+TECHNICAL.md
+tools/
