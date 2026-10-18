@@ -1,0 +1,16 @@
+name: Idea or feature request
+description: Something VSR Switcher could do better.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like?
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: How would you use it?
+      description: The situation it would help with. It often leads to a better solution than the first idea.

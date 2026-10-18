@@ -1,0 +1,75 @@
+name: Bug report
+description: Something does not work as it should.
+labels: [bug]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what happened instead. Screenshots are welcome.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: part
+    attributes:
+      label: Where?
+      options:
+        - Tray app
+        - Hotkey
+        - Command line (vsrswitch)
+        - Installer or uninstaller
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Output of vsrswitch doctor
+      description: |
+        It checks how VSR Switcher works with your NVIDIA App and changes nothing. In PowerShell, if you used the installer:
+        `& "$env:LOCALAPPDATA\Programs\VSR Switcher\vsrswitch.exe" doctor`
+        For the portable ZIP, run `.\vsrswitch.exe doctor` in its folder. Paste everything it prints.
+      render: text
+    validations:
+      required: true
+
+  - type: input
+    id: app-version
+    attributes:
+      label: VSR Switcher version
+      description: Shown in the tray menu under About VSR Switcher.
+      placeholder: "1.0.0"
+    validations:
+      required: true
+
+  - type: input
+    id: windows
+    attributes:
+      label: Windows version
+      placeholder: "Windows 11 24H2"
+    validations:
+      required: true
+
+  - type: input
+    id: gpu
+    attributes:
+      label: Graphics card
+      placeholder: "GeForce RTX 4070"
+    validations:
+      required: true
+
+  - type: input
+    id: nvidia-app
+    attributes:
+      label: NVIDIA App version
+      description: NVIDIA App, Settings, About.
+      placeholder: "11.0.9.565"
+
+  - type: input
+    id: driver
+    attributes:
+      label: Driver version
+      description: NVIDIA App, Drivers.
+      placeholder: "617.42"
