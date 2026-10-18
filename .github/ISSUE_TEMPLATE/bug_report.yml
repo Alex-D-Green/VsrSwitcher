@@ -56,9 +56,8 @@ body:
     id: gpu
     attributes:
       label: Graphics card
+      description: Only if the doctor output above does not show it.
       placeholder: "GeForce RTX 4070"
-    validations:
-      required: true
 
   - type: input
     id: nvidia-app
