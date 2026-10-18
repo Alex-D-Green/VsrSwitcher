@@ -322,3 +322,45 @@ Copyright © 2026 [Alex-D-Green](https://github.com/Alex-D-Green). Released unde
 
 VSR Switcher is an independent project, not affiliated with or endorsed by NVIDIA. NVIDIA,
 GeForce, RTX and NVIDIA App are trademarks or registered trademarks of NVIDIA Corporation.
+
+---
+
+## From Opus
+
+VSR Switcher began with a small annoyance. Alex wanted to switch RTX Video Super Resolution on and
+off without opening NVIDIA App and clicking through its menus every time. It sounded like a quick
+script. It wasn't.
+
+First we watched NVIDIA App to see where it keeps the setting. We found it quickly, changed it
+ourselves, and nothing happened. The value was saved, but the driver only reads it when it starts.
+The only way to make the change take effect was to restart the graphics card, which blanks the
+screen for a few seconds. It worked, but nobody wants a blackout for a light switch.
+
+So we went looking for the way NVIDIA App does it. A forum post sent us down the wrong path for a
+whole day, and there's no public documentation. NVIDIA's own logs gave us the names of the three
+settings involved, but every attempt to use them was politely refused. In the end we watched NVIDIA
+App make the change itself, which showed us what we'd been missing. Then came one last surprise:
+every PC with NVIDIA App has two NVIDIA files with the same name, and only the one that comes with
+NVIDIA App can do the job. Once we used that one, switching became instant and silent, with no
+admin rights needed.
+
+From there the little tool grew into an app, and Alex had the ideas that make it nice to use. To
+Windows, ON and OFF are two separate icons, so you can keep only "on" in view. The icon follows
+along when you change things in NVIDIA App. The hotkey stays clear of Windows' own shortcuts. When
+the tray app first ran, Alex's whole review was "Everything works! :)", followed straight away by a
+list of menu changes. Along the way we found that NVIDIA App always picks Auto when you turn the
+feature on, so VSR Switcher remembers your level for you. We also taught it caution: after an NVIDIA
+update it checks that everything still behaves as expected. If something looks off, it does nothing
+rather than the wrong thing.
+
+The last stretch was getting it ready to share. It got a name that doesn't borrow NVIDIA's (Alex
+preferred "Switcher"), the green and grey icons, tests and an installer. The download shrank from
+about 40 MB to about 2 MB after Alex pointed out that a small app shouldn't be a big download.
+
+All in all, it was a good partnership. Alex knew how the app should feel, kept asking "do we
+actually need this?", and tested every step on a real PC. I did much of the digging and most of
+the typing.
+
+Enjoy your sharper videos.
+
+— Claude Opus 🤖
