@@ -1,0 +1,72 @@
+name: Release
+
+# Pushing a version tag (v1.2.3) tests and packages VSR Switcher, then creates a draft GitHub
+# Release with the installer, the ZIP and their checksums: review it, then publish it.
+# Started by hand from the Actions tab, it builds and tests without releasing, and the files are
+# attached to the run instead.
+
+on:
+  push:
+    tags: ['v[0-9]+.[0-9]+.[0-9]+']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-2025
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0   # the version comes from the latest tag (git describe), so tags are needed
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Test
+        run: dotnet test -c Release --nologo
+
+      - name: Package
+        run: .\build\Package.ps1 -RequireInstaller
+
+      - name: Check the version matches the tag
+        if: github.ref_type == 'tag'
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          $version = $env:TAG.Substring(1)
+          if (-not (Test-Path "artifacts\VsrSwitcher-$version-setup.exe")) {
+            throw "Expected version $version, but built: $((Get-ChildItem artifacts -File).Name -join ', ')"
+          }
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: VsrSwitcher
+          path: |
+            artifacts/*.zip
+            artifacts/*.exe
+            artifacts/SHA256SUMS.txt
+          if-no-files-found: error
+
+  # A separate job, so that only this step - not the build or the tests - can write to the repo.
+  release:
+    needs: build
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: VsrSwitcher
+          path: artifacts
+
+      - name: Create draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          gh release create "$TAG" artifacts/* --repo "$GITHUB_REPOSITORY" --draft --verify-tag \
+            --title "VSR Switcher ${TAG#v}" --generate-notes
