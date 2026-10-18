@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    The tray app, and VSR Switcher's main program. Shows Super Resolution on/off as one of two
+    notification icons, and makes every change by running vsrswitch.exe, built into the same folder.
+  -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AssemblyName>VsrSwitcher</AssemblyName>
+    <RootNamespace>VsrSwitcher.Tray</RootNamespace>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    <ApplicationIcon>Resources\on.ico</ApplicationIcon>
+    <AssemblyTitle>VSR Switcher</AssemblyTitle>
+    <Description>Tray control of NVIDIA RTX Video Super Resolution.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VsrSwitcher.Core\VsrSwitcher.Core.csproj" />
+    <!-- Every change runs vsrswitch.exe, so it has to ship beside the tray app. -->
+    <ProjectReference Include="..\VsrSwitcher.Cli\VsrSwitcher.Cli.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="VsrSwitcher.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\on.ico" LogicalName="VsrSwitcher.Tray.Resources.on.ico" />
+    <EmbeddedResource Include="Resources\off.ico" LogicalName="VsrSwitcher.Tray.Resources.off.ico" />
+  </ItemGroup>
+
+</Project>
